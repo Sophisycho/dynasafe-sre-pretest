@@ -57,6 +57,8 @@ promql 參考來源：Grafana官方自己有一篇關於CPU throttling的[文章
 
 提示我們可以使用這兩個metrics，來算出某個container被限制的時間比率，由此來設計告警。
 
+---
 
+## 相關配置檔放置於目錄manifest中
 
    
