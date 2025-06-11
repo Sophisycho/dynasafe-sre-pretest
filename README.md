@@ -7,7 +7,7 @@
 1. 在Kind cluster中創建4個node, 1個control-plan, 3個worker node
 2. 其中一個worker node當作infra node, 安裝prometheus, metallb, speaker
 3. 創建一個nginx deployment並且創建一個svc給nginx使用，因為有metallb, 因此type可使用LoadBalancer。
-   不過由於本機是mac, docker似乎不會向主機公開docker的網路<[來源]([url](https://stackoverflow.com/questions/75512091/cannot-access-load-balancer-external-ip-address-assigned-by-metallb-installed-on))>
+   不過由於本機是mac, docker似乎不會向主機公開docker的網路([來源](https://stackoverflow.com/questions/75512091/cannot-access-load-balancer-external-ip-address-assigned-by-metallb-installed-on))
 5. 目前架構較簡易，所以Prometheus的9090port先用forwarding的方式，mapping到localhost:9090 port上
 6. Grafana run 在Docker container內，因此 Data source無法直接訪問`localhost:9090`, 需要訪問宿主機`host.docker.internal`，才能拿到上一步forwarding的prometheus endpoint
 7. 同時Grafana container mapping port3000到`localhost:3000`，因此在本機3000port就可以訪問Grafana Dashboard
@@ -55,7 +55,7 @@ prometheus_tsdb_head_series{job="kube-prometheus-stack-prometheus",instance="$Pr
 sum(increase(container_cpu_cfs_throttled_periods_total{container!="",}[10m])) by(cluster, container,pod, namespace)/
 sum(increase(container_cpu_cfs_periods_total{}[10m])) by (cluster, container, pod, namespace) * 100
 ```
-promql 參考來源：Grafana官方自己有一篇關於CPU throttling的[文章]([url](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/optimize-resource-usage/cpu-throttling/))
+promql 參考來源：Grafana官方自己有一篇關於CPU throttling的[文章](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/optimize-resource-usage/cpu-throttling/)
 
 提示我們可以使用這兩個metrics，來算出某個container被限制的時間比率，由此來設計告警。
 
