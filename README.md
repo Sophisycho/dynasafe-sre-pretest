@@ -6,7 +6,17 @@
 
 1. 在Kind cluster中創建4個node, 1個control-plan, 3個worker node
 2. 其中一個worker node當作infra node, 安裝prometheus, metallb, speaker
-3. 創建一個nginx deployment並且創建一個svc給nginx使用，因為有metallb, 因此type可使用LoadBalancer。
+   ```
+   helm install metallb metallb/metallb --namespace metallb-system --create-namespace --set speaker.nodeSelector.node-type=infra
+   ```
+   ```
+   helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace --set server.nodeSelector."node-type"=infra  --set kubeStateMetrics.nodeSelector."node-type"=infra
+   ```
+   ```
+   helm install node-exporter prometheus-community/prometheus-node-exporter --namespace monitoring --set nodeSelector."node-type"=infra
+   ```
+  
+4. 創建一個nginx deployment並且創建一個svc給nginx使用，因為有metallb, 因此type可使用LoadBalancer。
    不過由於本機是mac, docker似乎不會向主機公開docker的網路([來源](https://stackoverflow.com/questions/75512091/cannot-access-load-balancer-external-ip-address-assigned-by-metallb-installed-on))
 5. 目前架構較簡易，所以Prometheus的9090port先用forwarding的方式，mapping到localhost:9090 port上
 6. Grafana run 在Docker container內，因此 Data source無法直接訪問`localhost:9090`, 需要訪問宿主機`host.docker.internal`，才能拿到上一步forwarding的prometheus endpoint
