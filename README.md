@@ -6,9 +6,11 @@
 
 1. 在Kind cluster中創建4個node, 1個control-plan, 3個worker node
 2. 其中一個worker node當作infra node, 安裝prometheus, metallb, speaker
-3. 目前架構較簡易，所以Prometheus的9090port先用forwarding的方式，mapping到localhost:9090 port上
-4. Grafana run 在Docker container內，因此 Data source無法直接訪問`localhost:9090`, 需要訪問宿主機`host.docker.internal`，才能拿到上一步forwarding的prometheus endpoint
-5. 同時Grafana container mapping port3000到`localhost:3000`，因此在本機3000port就可以訪問Grafana Dashboard
+3. 創建一個nginx deployment並且創建一個svc給nginx使用，因為有metallb, 因此type可使用LoadBalancer。
+   不過由於本機是mac, docker似乎不會向主機公開docker的網路<[來源]([url](https://stackoverflow.com/questions/75512091/cannot-access-load-balancer-external-ip-address-assigned-by-metallb-installed-on))>
+5. 目前架構較簡易，所以Prometheus的9090port先用forwarding的方式，mapping到localhost:9090 port上
+6. Grafana run 在Docker container內，因此 Data source無法直接訪問`localhost:9090`, 需要訪問宿主機`host.docker.internal`，才能拿到上一步forwarding的prometheus endpoint
+7. 同時Grafana container mapping port3000到`localhost:3000`，因此在本機3000port就可以訪問Grafana Dashboard
 
 ---
 
