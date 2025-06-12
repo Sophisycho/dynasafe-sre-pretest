@@ -24,6 +24,7 @@
 
 ---
 
+## 相關效能數據
 1. 呈現node的效能監控數據
   <img width="1305" alt="image" src="https://github.com/user-attachments/assets/fff2b484-447d-44df-9b0d-65f68e42f63c" />
 
@@ -48,17 +49,18 @@ instance:node_load1_per_cpu:ratio{instance="$instance"}
 
 4. 呈現 etcd的效能監控數據
   <img width="1480" alt="image" src="https://github.com/user-attachments/assets/9c164c70-73f4-4fc0-b0bf-f177049d6672" />
+
 ```
 sum(rate(grpc_server_started_total{grpc_type="unary"}[5m]))
 ```
 
-6. 呈現 Prometheus效能監控數據
+5. 呈現 Prometheus效能監控數據
    <img width="1481" alt="image" src="https://github.com/user-attachments/assets/0767f035-68ed-4ac5-8316-cba62f86af96" />
 ```
 prometheus_tsdb_head_series{job="kube-prometheus-stack-prometheus",instance="$Prometheus:9090"}
 ```
 
-7. CPU Throttling監控數據
+6. CPU Throttling監控數據
 <img width="1166" alt="image" src="https://github.com/user-attachments/assets/dd95ba3d-509a-47c1-a8b5-c01400edec98" />
 
 ```
